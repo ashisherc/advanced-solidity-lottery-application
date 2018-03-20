@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "description": "Advanced lottery solidity smart contract",
   "scripts": {
-    "test": "mocha"
+    "test": "mocha",
+    "deploy": "node deploy"
   },
   "author": {
     "name": "Ashish Prajapati",
