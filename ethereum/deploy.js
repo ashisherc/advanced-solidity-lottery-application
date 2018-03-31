@@ -1,6 +1,6 @@
 const HDWalletProvider = require('truffle-hdwallet-provider');
 const Web3 = require('web3');
-const { interface, bytecode } = require('./compile');
+const { interface, bytecode } = require('./build/LotteryGenerator.json');
 const config = require('./config');
 
 const provider = new HDWalletProvider(
@@ -18,8 +18,8 @@ const deploy = async () => {
         .deploy({
             data: bytecode
         })
-        .send({ from: accounts[0], gas: "1000000" });
+        .send({ from: accounts[0], gas: "6000000" });
     console.log("Contract deployed to : ", inbox.options.address);
 }
 
-// deploy();
+deploy();

@@ -1,6 +1,21 @@
 pragma solidity ^0.4.20;
 
+contract LotteryGenerator {
+    address[] public lotteries;
+
+    function createLottery(string name) public {
+        address newLottery = new Lottery(name, msg.sender);
+        lotteries.push(newLottery);
+    }
+
+    function getLotteries() public view returns(address[]) {
+        return lotteries;
+    }
+}
+
 contract Lottery {
+    // name of the lottery
+    string public lotteryName;
     // Creator of the lottery contract
     address public manager;
 
@@ -21,8 +36,9 @@ contract Lottery {
     uint public ethToParticipate;
 
     // constructor
-    function Lottery() public {
-        manager = msg.sender;
+    function Lottery(string name, address creator) public {
+        manager = creator;
+        lotteryName = name;
     }
 
     // Let users participate by sending eth directly to contract address
