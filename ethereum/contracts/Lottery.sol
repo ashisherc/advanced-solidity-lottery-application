@@ -92,6 +92,10 @@ contract Lottery {
         return (players[playerAddress].name, players[playerAddress].entryCount);
     }
 
+    function getWinningPrice() public view returns (uint) {
+        return this.balance;
+    }
+
     // Private functions
     function isNewPlayer(address playerAddress) private view returns(bool) {
         if (addressIndexes.length == 0) {
