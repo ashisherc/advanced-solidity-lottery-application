@@ -6,11 +6,18 @@ contract LotteryGenerator {
     function createLottery(string name) public {
         address newLottery = new Lottery(name, msg.sender);
         lotteries.push(newLottery);
+
+        LotteryCreated(newLottery);
     }
 
     function getLotteries() public view returns(address[]) {
         return lotteries;
     }
+
+    // Events
+    event LotteryCreated(
+        address lotteryAddress
+    );
 }
 
 contract Lottery {
@@ -61,6 +68,9 @@ contract Lottery {
         }
 
         lotteryBag.push(msg.sender);
+    
+        // event
+        PlayerParticipated(players[msg.sender].name, players[msg.sender].entryCount);
     }
 
     function activateLottery(uint maxEntries, uint ethRequired) public restricted {
@@ -82,6 +92,9 @@ contract Lottery {
 
         // Mark the lottery inactive
         isLotteryLive = false;
+    
+        // event
+        WinnerDeclared(winner.name, winner.entryCount);
     }
 
     function getPlayers() public view returns(address[]) {
@@ -89,6 +102,9 @@ contract Lottery {
     }
 
     function getPlayer(address playerAddress) public view returns (string, uint) {
+        if (isNewPlayer(playerAddress)) {
+            return ("", 0);
+        }
         return (players[playerAddress].name, players[playerAddress].entryCount);
     }
 
@@ -115,4 +131,7 @@ contract Lottery {
         _;
     }
 
+    // Events
+    event WinnerDeclared( string name, uint entryCount );
+    event PlayerParticipated( string name, uint entryCount );
 }
