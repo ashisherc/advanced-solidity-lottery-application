@@ -7,6 +7,9 @@
     <div v-show="!isMetaMaskLoggedin" class="alert alert-danger" role="alert">
       Please log into Metamask
     </div>
+    <div class="alert alert-primary" role="alert">
+      This Dapp is deployed on Rinkeby test network. Please make sure that metamask is connected to Rinkeby testnet.
+    </div>
 
     <div v-if="isMetaMaskPresent && isMetaMaskLoggedin" class="container">
       <router-view/>
