@@ -9,7 +9,8 @@ const should = require('chai').should();
 chai.use(chaiAsPromised);
 chai.use(chaiAlmost());
 
-const { interface, bytecode } = require('../compile');
+const { interface, bytecode } = require('../build/LotteryGenerator.json');
+const lotteryBuild = require('../build/Lottery.json');
 
 describe('Lottery Deployed Not Live', () => {
     const provider = ganache.provider();
@@ -19,9 +20,12 @@ describe('Lottery Deployed Not Live', () => {
 
     before(async () => {
         accounts = await web3.eth.getAccounts();
-        lottery = await new web3.eth.Contract(JSON.parse(interface))
+        const lotteryGenerator = await new web3.eth.Contract(JSON.parse(interface))
             .deploy({ data: bytecode })
-            .send({ from: accounts[0], gas: "1000000" });
+            .send({ from: accounts[0], gas: "2000000" });
+        await lotteryGenerator.methods.createLottery('lottery').send({ from: accounts[0], gas: "2000000" });
+        const lotteryAddress = await lotteryGenerator.methods.getLotteries().call();
+        lottery = new web3.eth.Contract(JSON.parse(lotteryBuild.interface), lotteryAddress[0]);
     });
 
     it('contract deployed', () => {
@@ -70,9 +74,12 @@ describe('Lottery Deployed and Live', async () => {
     let lottery;
     before(async () => {
         accounts = await web3.eth.getAccounts();
-        lottery = await new web3.eth.Contract(JSON.parse(interface))
+        const lotteryGenerator = await new web3.eth.Contract(JSON.parse(interface))
             .deploy({ data: bytecode })
-            .send({ from: accounts[0], gas: "1000000" });
+            .send({ from: accounts[0], gas: "2000000" });
+        await lotteryGenerator.methods.createLottery('lottery').send({ from: accounts[0], gas: "2000000" });
+        const lotteryAddress = await lotteryGenerator.methods.getLotteries().call();
+        lottery = new web3.eth.Contract(JSON.parse(lotteryBuild.interface), lotteryAddress[0]);
 
         const maxEntries = 2, ethRequired = 1;
         await lottery.methods.activateLottery(maxEntries, ethRequired).send({
@@ -106,7 +113,7 @@ describe('Lottery Deployed and Live', async () => {
         players.should.include(accounts[1]);
     })
 
-    it('returns a player by given address', async ()=>{
+    it('returns a player by given address', async () => {
         const player = await lottery.methods.getPlayer(accounts[1]).call();
         // Player name
         player[0].should.be.equal("User1");
@@ -137,9 +144,12 @@ describe("Lottery win is declared, and lottery is set to deactivated state", () 
     let lottery;
     before(async () => {
         accounts = await web3.eth.getAccounts();
-        lottery = await new web3.eth.Contract(JSON.parse(interface))
+        const lotteryGenerator = await new web3.eth.Contract(JSON.parse(interface))
             .deploy({ data: bytecode })
-            .send({ from: accounts[0], gas: "1000000" });
+            .send({ from: accounts[0], gas: "2000000" });
+        await lotteryGenerator.methods.createLottery('lottery').send({ from: accounts[0], gas: "2000000" });
+        const lotteryAddress = await lotteryGenerator.methods.getLotteries().call();
+        lottery = new web3.eth.Contract(JSON.parse(lotteryBuild.interface), lotteryAddress[0]);
 
         const maxEntries = 2, ethRequired = 1;
         await lottery.methods.activateLottery(maxEntries, ethRequired).send({
