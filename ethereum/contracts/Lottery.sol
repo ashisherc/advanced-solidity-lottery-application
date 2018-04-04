@@ -2,16 +2,32 @@ pragma solidity ^0.4.20;
 
 contract LotteryGenerator {
     address[] public lotteries;
+    struct lottery{
+        uint index;
+        address manager;
+    }
+    mapping(address => lottery) lotteryStructs;
 
     function createLottery(string name) public {
+        require(bytes(name).length > 0);
         address newLottery = new Lottery(name, msg.sender);
-        lotteries.push(newLottery);
+        lotteryStructs[newLottery].index = lotteries.push(newLottery) - 1;
+        lotteryStructs[newLottery].manager = msg.sender;
 
+        // event
         LotteryCreated(newLottery);
     }
 
     function getLotteries() public view returns(address[]) {
         return lotteries;
+    }
+
+    function deleteLottery(address lotteryAddress) public {
+        require(msg.sender == lotteryStructs[lotteryAddress].manager);
+        uint indexToDelete = lotteryStructs[lotteryAddress].index;
+        address lastAddress = lotteries[lotteries.length - 1];
+        lotteries[indexToDelete] = lastAddress;
+        lotteries.length --;
     }
 
     // Events
@@ -55,6 +71,7 @@ contract Lottery {
     }
 
     function participate(string playerName) public payable {
+        require(bytes(playerName).length > 0);
         require(isLotteryLive);
         require(msg.value == ethToParticipate * 1 ether);
         require(players[msg.sender].entryCount < maxEntriesForPlayer);
@@ -80,6 +97,8 @@ contract Lottery {
     }
 
     function declareWinner() public restricted {
+        require(lotteryBag.length > 0);
+
         uint index = generateRandomNumber() % lotteryBag.length;
         lotteryBag[index].transfer(this.balance);
          
