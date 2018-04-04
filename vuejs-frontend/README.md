@@ -17,9 +17,9 @@ Vuejs front end implementation for the advanced lottery smart contract, written 
 
 ## Setup contract
 
-1. Build lottery contract as described [here] ()
+1. Build lottery contract as described [here] (https://github.com/ashisherc/advanced-solidity-lottery-application/tree/master/ethereum)
 2. Copy output files into /src/contract
-3. Deploy contract as described here
+3. Deploy contract as described [here] (https://github.com/ashisherc/advanced-solidity-lottery-application/tree/master/ethereum)
 4. Copy contract address and paste it into /src/config.js
 
 ```js
