@@ -4,7 +4,7 @@ This is an advanced lottery smart contract explaining some of the very useful CR
 
 ## Features
 
-Uses very less amount of gas for doing operations such as deleting data from array, finding data from array, by using Struct to store index pointer to the array of data. A blog article would be better I guess to understand the contract. Please read the README of vuejs front-end for this contract to know all features of this contract.
+Uses very less amount of gas for doing operations such as deleting data from array, finding data from array, by using Struct to store index pointer to the array of data. A blog article would be better I guess to understand the contract. Please read the [README](https://github.com/ashisherc/advanced-solidity-lottery-application/tree/master/vuejs-frontend) of vuejs front-end for this contract to know all features of this contract.
 
 ## How to use
 
