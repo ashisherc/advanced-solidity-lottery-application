@@ -14,11 +14,14 @@
     <div v-if="isMetaMaskPresent && isMetaMaskLoggedin" class="container">
       <router-view/>
     </div>
+  <app-footer></app-footer>
   </div>
 </template>
 
 <script>
 import Header from "./components/shared/Header";
+import Footer from "./components/shared/Footer";
+
 import web3 from "./web3/web3";
 
 export default {
@@ -36,7 +39,8 @@ export default {
     }
   },
   components: {
-    AppHeader: Header
+    AppHeader: Header,
+    AppFooter: Footer
   }
 };
 </script>
@@ -52,6 +56,7 @@ export default {
   text-align: center;
   color: #2c3e50;
 }
+
 .voffset {
   margin-top: 2px;
 }
