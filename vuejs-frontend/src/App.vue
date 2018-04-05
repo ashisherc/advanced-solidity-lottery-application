@@ -14,7 +14,7 @@
     <div v-if="isMetaMaskPresent && isMetaMaskLoggedin" class="container">
       <router-view/>
     </div>
-  <app-footer></app-footer>
+  <app-footer class="voffset3"></app-footer>
   </div>
 </template>
 
