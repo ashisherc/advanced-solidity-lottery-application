@@ -28,11 +28,15 @@ export default {
   data() {
     return {
       isMetaMaskPresent: false,
-      isMetaMaskLoggedin: false
+      isMetaMaskLoggedin: false,
     };
   },
   async created() {
     this.isMetaMaskPresent = web3 ? true : false;
+    try {
+      await ethereum.enable();
+    } catch (error) {
+    }
     if (this.isMetaMaskPresent) {
       const accounts = await web3.eth.getAccounts();
       this.isMetaMaskLoggedin = accounts.length ? true : false;
