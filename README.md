@@ -1,3 +1,5 @@
+# This is an old project, the solidity code might still be relevant today, but the frontend might not work.
+
 #   Advanced Lottery Solidity Smart Contract
 
 This is an advanced lottery smart contract explaining some of the very useful CRUD operations required to create an application using solidity on Ethereum.
